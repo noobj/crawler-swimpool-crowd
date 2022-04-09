@@ -1,0 +1,23 @@
+service: swimpool-crowd-statistics
+useDotenv: true
+plugins:
+  - serverless-offline
+  - serverless-offline-scheduler
+provider:
+  lambdaHashingVersion: 20201221
+  name: aws
+  runtime: nodejs14.x
+  region: ap-southeast-1
+package:
+  patterns:
+    - '!node_modules/**'
+    - 'node_modules/moment/**'
+    - 'node_modules/mongodb/**'
+    - 'node_modules/crawler/**'
+functions:
+  fetchSwimpoolCrowd:
+    handler: index.handler
+    events:
+      - schedule: rate(1 minute)
+
+
