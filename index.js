@@ -1,7 +1,9 @@
 const Crawler = require('crawler');
 const mongoClient = require('mongodb').MongoClient;
-const moment = require('moment');
-const url = 'mongodb+srv://jjj:dLUHfblSS53ngtBT@ahorro.o2jmk.mongodb.net/';
+const moment = require('moment-timezone');
+
+const { MONGO_USER, MONGO_PASSWORD, MONGO_PATH } = process.env;
+const url = `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`;
 
 exports.handler = function () {
     const c = new Crawler({
@@ -18,8 +20,8 @@ exports.handler = function () {
             const dbo = await client.db('swimCrowdDB').collection('entry');
             const newObj = {
                 amount,
-                date: moment().format('yyyy-MM-DD'),
-                time: moment().format('HH:mm')
+                date: moment().tz('Asia/Taipei').format('yyyy-MM-DD'),
+                time: moment().tz('Asia/Taipei').format('HH:mm')
             };
             await dbo.insertOne(newObj).catch((err) => console.log(err));
 
