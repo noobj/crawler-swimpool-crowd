@@ -17,9 +17,9 @@ provider:
 package:
   individually: true
 functions:
-  fetchSwimpoolCrowd:
-    handler: index.handler
+  crawlSwimpoolCrowd:
+    handler: handlers/crawlSwimpoolCrowd.handler
     events:
-      - schedule: cron(0,30 6-22 * * ? *)
+      - schedule: cron(0,30 0-13,23 * * ? *)
 
 
