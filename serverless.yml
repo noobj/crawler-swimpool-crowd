@@ -3,7 +3,6 @@ useDotenv: true
 variablesResolutionMode: 20210326
 plugins:
   - serverless-offline
-  - serverless-offline-scheduler
 provider:
   lambdaHashingVersion: 20201221
   name: aws
@@ -13,7 +12,7 @@ provider:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     MONGO_USER: ${ssm:/lambda/ahorro/prod/MONGO_USER}
     MONGO_PASSWORD: ${ssm:/lambda/ahorro/prod/MONGO_PASSWORD}
-    MONGO_PATH: ${ssm:/lambda/ahorro/prod/MONGO_PATH}
+    MONGO_PATH: ${ssm:/lambda/swimpool/prod/MONGO_PATH}
 package:
   individually: true
 functions:
@@ -21,5 +20,11 @@ functions:
     handler: handlers/crawlSwimpoolCrowd.handler
     events:
       - schedule: cron(0,30 0-13,23 * * ? *)
+  fetchCrowdData:
+    handler: handlers/fetchCrowdData.handler
+    events:
+      - httpApi:
+          method: GET
+          path: /crowd
 
 
