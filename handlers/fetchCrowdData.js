@@ -33,6 +33,7 @@ exports.handler = async function (event, context, callback) {
     await mongoose.disconnect();
     callback(null, {
         statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(res)
     });
 };
