@@ -28,7 +28,7 @@ exports.handler = async function (event, context, callback) {
         });
     }
 
-    const res = await Entry.aggregate([
+    const entries = await Entry.aggregate([
         {
             $match: {
                 $and: [
@@ -60,6 +60,12 @@ exports.handler = async function (event, context, callback) {
         }
     ]);
 
+    const res = entries.map((entry) => {
+        return {
+            date: moment(entry._id).format('yyyy-MM-DD (ddd)'),
+            entries: entry.entries
+        };
+    });
     await mongoose.disconnect();
     callback(null, {
         statusCode: 200,
