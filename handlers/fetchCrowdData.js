@@ -1,6 +1,7 @@
 const moment = require('moment-timezone');
 const mongoose = require('../db/mongoose-connect');
 const Entry = require('../db/models/entry.model');
+const { checkValidDateTimeFormat } = require('./helper');
 
 moment.tz.setDefault('Asia/Taipei');
 
@@ -14,7 +15,7 @@ exports.handler = async function (event, context, callback) {
             : start;
         end = event.queryStringParameters.end ? event.queryStringParameters.end : end;
     }
-    if (!checkValidDateFormat([start, end])) {
+    if (!checkValidDateTimeFormat([start, end])) {
         callback(null, {
             statusCode: 400,
             body: JSON.stringify('Wrong parameter format.')
@@ -37,11 +38,3 @@ exports.handler = async function (event, context, callback) {
         body: JSON.stringify(res)
     });
 };
-
-function checkValidDateFormat(values) {
-    if (!(values instanceof Array)) values = [values];
-    for (const value of values)
-        if (!moment(value, 'YYYY-MM-DD HH:mm', true).isValid()) return false;
-
-    return true;
-}

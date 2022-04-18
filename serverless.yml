@@ -26,5 +26,12 @@ functions:
       - httpApi:
           method: GET
           path: /crowd
+  fetchCrowdDailyData:
+    handler: handlers/fetchCrowdDailyData.handler
+    events:
+      - httpApi:
+          method: GET
+          path: /crowd/daily
+
 
 
